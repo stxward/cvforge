@@ -41,3 +41,11 @@ export const getRoleSuggestions = async (cvText) => {
   const response = await axios.post(`${BASE_URL}/cv/roles`, { cvText });
   return response.data;
 };
+export const textToSpeech = async (text, personaId) => {
+  const response = await axios.post(
+    `${BASE_URL}/cv/tts`,
+    { text, personaId },
+    { responseType: 'arraybuffer' }
+  );
+  return response.data;
+};

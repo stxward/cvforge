@@ -26,4 +26,5 @@ router.post('/mock/start', cvController.startMockInterview);
 router.post('/mock/score', cvController.scoreAnswer);
 router.post('/voice/score', cvController.scoreVoice);
 router.post('/roles', cvController.getRoleSuggestions);
+router.post('/tts', cvController.textToSpeech);
 module.exports = router;

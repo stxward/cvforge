@@ -1,7 +1,8 @@
+import { startMockInterview, scoreVoiceAnswer, textToSpeech } from '../api/cvApi';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import { startMockInterview, scoreVoiceAnswer } from '../api/cvApi';
+
 
 const PERSONAS = [
   { id: 'alex', name: 'Alex', role: 'Senior Interviewer', style: 'Technical · Calm', bg: '#CECBF6', color: '#3C3489', company: 'faang' },
@@ -63,19 +64,54 @@ function VoiceInterview() {
 
   const formatTime = (s) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
-  const speak = (text, onEnd) => {
-    synthRef.current.cancel();
-    const utt = new SpeechSynthesisUtterance(text);
-    utt.rate = 0.95;
-    utt.pitch = 1;
-    utt.volume = 1;
-    const voices = synthRef.current.getVoices();
-    const preferred = voices.find(v => v.name.includes('Google') && v.lang === 'en-US') || voices.find(v => v.lang === 'en-US');
-    if (preferred) utt.voice = preferred;
-    utt.onstart = () => { setIsSpeaking(true); setWaveActive(true); };
-    utt.onend = () => { setIsSpeaking(false); setWaveActive(false); if (onEnd) onEnd(); };
-    synthRef.current.speak(utt);
+  const speak = async (text, onEnd) => {
+  try {
+    setIsSpeaking(true);
+    setWaveActive(true);
+
+    const audioData = await textToSpeech(text, persona.id);
+    const blob = new Blob([audioData], { type: 'audio/mpeg' });
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+
+    audio.onended = () => {
+      setIsSpeaking(false);
+      setWaveActive(false);
+      URL.revokeObjectURL(url);
+      if (onEnd) onEnd();
+    };
+
+    audio.onerror = () => {
+      setIsSpeaking(false);
+      setWaveActive(false);
+      fallbackSpeak(text, onEnd);
+    };
+
+    await audio.play();
+
+  } catch (error) {
+    console.error('ElevenLabs speak error:', error);
+    fallbackSpeak(text, onEnd);
+  }
+};
+
+const fallbackSpeak = (text, onEnd) => {
+  synthRef.current.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.rate = 0.95;
+  utt.pitch = 1;
+  utt.volume = 1;
+  const voices = synthRef.current.getVoices();
+  const preferred = voices.find(v => v.name.includes('Google') && v.lang === 'en-US') || voices.find(v => v.lang === 'en-US');
+  if (preferred) utt.voice = preferred;
+  utt.onstart = () => { setIsSpeaking(true); setWaveActive(true); };
+  utt.onend = () => {
+    setIsSpeaking(false);
+    setWaveActive(false);
+    if (onEnd) onEnd();
   };
+  synthRef.current.speak(utt);
+};
 
   const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;

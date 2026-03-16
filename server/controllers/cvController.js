@@ -1,3 +1,4 @@
+const { generateSpeech } = require('../services/voiceService');
 const { parseCV } = require('../services/parseService');
 const { analyseWithClaude, generateQuiz, generateMockQuestions, scoreMockAnswer, scoreVoiceAnswer, suggestRoles } = require('../services/claudeService');
 
@@ -86,4 +87,19 @@ const getRoleSuggestions = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-module.exports = { uploadCV, analyseCV, generateQuizQuestions, startMockInterview, scoreAnswer, scoreVoice, getRoleSuggestions };
+const textToSpeech = async (req, res) => {
+  try {
+    const { text, personaId } = req.body;
+    if (!text) return res.status(400).json({ error: 'No text provided' });
+    const audioBuffer = await generateSpeech(text, personaId || 'alex');
+    res.set({
+      'Content-Type': 'audio/mpeg',
+      'Content-Length': audioBuffer.length,
+    });
+    res.send(audioBuffer);
+  } catch (error) {
+    console.error('TTS error:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+module.exports = { uploadCV, analyseCV, generateQuizQuestions, startMockInterview, scoreAnswer, scoreVoice, getRoleSuggestions, textToSpeech };
