@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = 'https://cvforge-server.onrender.com/api';
 
 export const uploadCV = async (file) => {
   const formData = new FormData();
