@@ -107,9 +107,19 @@ setQuestions(shuffled);
 
   const handleNext = () => {
     if (currentQ + 1 >= questions.length) {
-      setStage('results');
-      return;
-    }
+  const quizResults = JSON.parse(localStorage.getItem('quizResults') || '[]');
+  quizResults.push({ 
+    score, 
+    total: questions.length, 
+    difficulty, 
+    date: new Date().toISOString() 
+  });
+  localStorage.setItem('quizResults', JSON.stringify(quizResults));
+  const currentXp = parseInt(localStorage.getItem('totalXp') || '0');
+  localStorage.setItem('totalXp', currentXp + xp);
+  setStage('results');
+  return;
+}
     setCurrentQ(q => q + 1);
     setSelected(null);
     setAnswered(false);
