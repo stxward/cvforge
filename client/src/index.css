@@ -1,8 +1,9 @@
+/* @import MUST be first — before @tailwind directives */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -15,11 +16,25 @@ body {
   background-color: #fafafa;
   color: #0f0f0f;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode body override */
+.dark body {
+  background-color: #0f0f0f;
+  color: #ffffff;
 }
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+.dark ::-webkit-scrollbar-track { background: #1f2937; }
+.dark ::-webkit-scrollbar-thumb { background: #4b5563; }
+
+/* Shadow utilities referenced in Upload.jsx */
+.shadow-brand     { box-shadow: 0 4px 14px 0 rgb(124 58 237 / 0.25); }
+.shadow-brand-lg  { box-shadow: 0 8px 25px 0 rgb(124 58 237 / 0.35); }
+.shadow-card      { box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04); }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
@@ -76,9 +91,15 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(124, 58, 237, 0.12);
 }
+.dark .card-hover:hover {
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.25);
+}
 
 .glass {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+.dark .glass {
+  background: rgba(15, 15, 15, 0.8);
 }

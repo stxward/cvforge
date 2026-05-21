@@ -38,7 +38,7 @@ function Navbar() {
             </svg>
           </div>
           <span className="text-base font-semibold text-gray-900 tracking-tight">
-            CV<span className="gradient-text">Forge</span>
+            Hire<span className="gradient-text">ly</span>
           </span>
         </div>
 

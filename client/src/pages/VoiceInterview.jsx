@@ -264,7 +264,7 @@ localStorage.setItem('voiceResults', JSON.stringify(voiceResults));
     <div className="w-2.5 h-2.5 rounded-full bg-red-500 flex-shrink-0" />
     <div>
       <p className="text-sm font-medium text-red-700">Voice not supported in this browser</p>
-      <p className="text-xs text-red-500 mt-0.5">Please open CVForge in <strong>Google Chrome</strong> for voice interview support</p>
+      <p className="text-xs text-red-500 mt-0.5">Please open Hirely in <strong>Google Chrome</strong> for voice interview support</p>
     </div>
   </div>
 ) : (
