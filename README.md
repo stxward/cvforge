@@ -4,7 +4,7 @@ Hirely is a CV analysis and interview prep tool I built to help job seekers get 
 
 Upload your CV, get an ATS score and detailed breakdown, then jump straight into mock interviews — text or voice — all powered by Groq's LLaMA model.
 
-🔗 [Live Demo](https://cvforge-six.vercel.app)
+🔗 [Live Demo](https://hirely-io.vercel.app)
 
 ---
 
@@ -36,8 +36,6 @@ Upload your CV, get an ATS score and detailed breakdown, then jump straight into
 | Mock Interview | Dashboard |
 |----------------|-----------|
 | ![Interview](screenshots/interview.png) | ![Dashboard](screenshots/dashboard.png) |
-
-*<!-- Replace the above paths with actual screenshots from your app -->*
 
 ---
 
